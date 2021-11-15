@@ -116,7 +116,7 @@ def merge_pdfs():
         merger.close()       
 
 def make_zip():
-    shutil.make_archive("compressed_pdfs", 'zip', "merged_files")
+    shutil.make_archive("output/compressed_pdfs", 'zip', "merged_files")
     
 
 def main():
