@@ -14,7 +14,7 @@ from RPA.Dialogs import Dialogs
 lib = Selenium()
 dl = Dialogs()
 
-def ask_for_input():
+def input_url():
     dl.add_text_input(name = "url1",label = "URL")
     res = dl.run_dialog()
     return res.url1
@@ -36,8 +36,8 @@ if "merged_files" not in list(os.listdir(curr_dir)):
     os.mkdir("merged_files")
 
 def open_browser():
-    secret2 = Vault().get_secret("credentials")
-    u_rl = secret2["url"]
+    #secret2 = Vault().get_secret("credentials")
+    u_rl = input_url()
     lib.open_available_browser(u_rl)
     lib.click_element("xpath:/html/body/div/header/div/ul/li[2]/a")
 
@@ -120,8 +120,8 @@ def make_zip():
     
 
 def main():
-    value = ask_for_input()
-    update_vault(value)
+    value = input_url()
+#     update_vault(value)
     open_browser()
     fill_all_excel()
     convert_to_pdf()
