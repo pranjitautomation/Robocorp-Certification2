@@ -3,30 +3,13 @@ import pandas as pd
 from RPA.HTTP import HTTP
 from RPA.PDF import PDF
 from PyPDF2 import PdfFileMerger
-import json
 from PIL import Image
 import os
 import time as t
 import shutil
-from RPA.Robocorp.Vault import Vault
-from RPA.Dialogs import Dialogs
+
 
 lib = Selenium()
-dl = Dialogs()
-
-def input_url():
-    dl.add_text_input(name = "url1",label = "URL")
-    res = dl.run_dialog()
-    return res.url1
-
-def update_vault(url_rb):
-    a_file = open("D:/rpac/new_rpac/pranjit.vault.json", "r")
-    json_object = json.load(a_file)
-    a_file.close()
-    json_object["credentials"]["url"] = url_rb
-    a_file = open("D:/rpac/new_rpac/pranjit.vault.json", "w")
-    json.dump(json_object, a_file)
-    a_file.close()
     
 curr_dir = os.getcwd()
 if "ss_pdf" not in list(os.listdir(curr_dir)):
@@ -36,8 +19,7 @@ if "merged_files" not in list(os.listdir(curr_dir)):
     os.mkdir("merged_files")
 
 def open_browser():
-    #secret2 = Vault().get_secret("credentials")
-    u_rl = input_url()
+    u_rl = "https://robotsparebinindustries.com"
     lib.open_available_browser(u_rl)
     lib.click_element("xpath:/html/body/div/header/div/ul/li[2]/a")
 
@@ -54,7 +36,6 @@ def pdff(k):
     pran=lib.get_element_attribute("id:receipt","outerHTML")
     pdf=PDF()
     pdf.html_to_pdf(pran,f"output/receipts_{k}.pdf")
-    # pdff()
 
 
 def fill_all_excel():
@@ -120,8 +101,6 @@ def make_zip():
     
 
 def main():
-    value = input_url()
-#     update_vault(value)
     open_browser()
     fill_all_excel()
     convert_to_pdf()
